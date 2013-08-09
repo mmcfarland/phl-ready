@@ -17,53 +17,9 @@
 <script type="text/javascript" src="http://54.235.132.110/socket.io/socket.io.js"></script>
 <script type="text/javascript">
     $(document).ready(function() { 
-
-        var flight = 710;
-        var direction = 'Arrival';
-        var server = 'http://54.235.132.110/';
-
-        var socket = io.connect(server);
-
-        socket.on('update', function(data) {
-            console.log(data);
-        });
-
-        var mapOptions = {
-          center: new google.maps.LatLng(39.875, -75.238),
-          zoom: 13,
-          mapTypeId: google.maps.MapTypeId.ROADMAP
-        };
-
-        var map = new google.maps.Map(document.getElementById("map"),
-            mapOptions);
-
-        socket.emit('subscribe', {"flightNumber": flight, "direction": direction});
-
-        $.getJSON(server + 'number/' + flight + '?callback=?', function(status) {
-            console.log(status);
-        });
-
-        var directionsService = new google.maps.DirectionsService();
-        var directionsDisplay = new google.maps.DirectionsRenderer();
-        directionsDisplay.setMap(map);
-
-        $('#go').click(calcRoute);
-
-        function calcRoute() {
-              var start = $('#addr').val();
-              var end = "Philadelphia International Airport";
-              var request = {
-                origin:start,
-                destination:end,
-                travelMode: google.maps.TravelMode.DRIVING
-              };
-              directionsService.route(request, function(result, status) {
-                if (status == google.maps.DirectionsStatus.OK) {
-                  directionsDisplay.setDirections(result);
-                }
-          });
-        }
-    
+        var ready = new Ready({
+            
+            });
     });
 </script>
 </html>
