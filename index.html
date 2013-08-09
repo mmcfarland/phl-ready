@@ -3,6 +3,7 @@
 <head>
 </head>
 <body>
+    <h1>When Should I leave?</h1>
     <div class="row">
         <input id="flight-num">
     </div>
@@ -10,20 +11,29 @@
         <input id="addr">
     </div>
     <button id="go">Go</button>
-    <div id="map" style="height:300px; width=500px;"></div>
+    <div id="map" style="height:500px; width=500px;"></div>
 </body>
 <script src="//maps.googleapis.com/maps/api/js?sensor=false"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script src="vendor/underscore-min.js"></script>
+<script src="vendor/backbone-min.js"></script>
+<script src="vendor/moment.min.js"></script>
 <script src="ready.js"></script>
 <script src="map.js"></script>
 <script type="text/javascript" src="http://54.235.132.110/socket.io/socket.io.js"></script>
 <script type="text/javascript">
     $(document).ready(function() { 
-        var ready = new Ready({
-            flight: 717,
-            direction: "Arrival"
-        });
+        var ready = new Ready();
     });
+</script>
+<script id="template-flight" type="text/template">
+    <div>
+        <div><%=airline %> <%= flightNumber %> <% print(direction === 'Departure' ? ' to ' : ' from ') %> <%= airport %></div>
+    </div>
+<div>
+  <div>Status: <%= status %> (estimated: ) <%= estimatedTime %></div>
+  <div>Scheduled: <%= scheduledDateTime %></div>
+<div>
 </script>
 </html>
 
