@@ -7,23 +7,23 @@
         self.server = 'http://54.235.132.110/';
         self.map = new Map();
 
-        var socket = io.connect(server);
+        var socket = io.connect(self.server);
 
         socket.on('update', function(data) {
             console.log(data);
         });
 
-        $('#go').click(self.map.calculateRoute);
+        $('#go').click($.proxy(self.map.calculateRoute, self.map));
         socket.emit('subscribe', {
-            "flightNumber": flight, 
-            "direction": direction
+            "flightNumber": self.flight, 
+            "direction": self.direction
         });
 
-        $.getJSON(server + 'number/' + flight + '?callback=?', function(status) {
+        $.getJSON(self.server + 'number/' + self.flight + '?callback=?', function(status) {
             console.log(status);
         });
 
     
     };
 
-}());
+}(this));

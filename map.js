@@ -14,12 +14,13 @@
         var map = new google.maps.Map(document.getElementById("map"),
             mapOptions);
 
-        directionsDisplay.setMap(map);
+        self.directionsDisplay.setMap(map);
     };
 
     N.Map.prototype.calculateRoute = function() {
 
-        var start = $('#addr').val(),
+        var self = this,
+            start = $('#addr').val(),
             end = "Philadelphia International Airport",
             request = {
                 origin: start,
@@ -27,10 +28,10 @@
                 travelMode: google.maps.TravelMode.DRIVING
             };
 
-        this.directionsService.route(request, function(result, status) {
+        self.directionsService.route(request, function(result, status) {
             if (status == google.maps.DirectionsStatus.OK) {
-              directionsDisplay.setDirections(result);
+              self.directionsDisplay.setDirections(result);
             }
         });
     };
-}());
+}(this));
