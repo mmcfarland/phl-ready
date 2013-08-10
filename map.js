@@ -18,7 +18,7 @@
         self.directionsDisplay.setMap(map);
 
         // Update the travel times ever minute
-        setInterval(self.calculateRoute, 60 * 1000);
+        setInterval($.proxy(self.calculateRoute,self), 60 * 1000);
     };
 
     N.Map.prototype.calculateRoute = function() {
