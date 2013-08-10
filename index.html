@@ -11,6 +11,9 @@
             <div class="col-lg-6">
                 <input id="flight-num" type="text" placeholder="Flight #" class="form-control">
                 <input id="addr" type="text" placeholder="Starting Address" class="form-control">
+                <div class="progress">
+                    <div class="progress-bar" style="width:0%"></div>
+                </div>
             </div>
             <div class="col-lg-6">
                 <div id="flight-status"></div>
@@ -39,7 +42,7 @@
         <p class="text-info" style="font-weight:bold"><%=airline %> <%= flightNumber %> <% print(direction === 'Departure' ? ' to ' : ' from ') %> <%= airport %></p>
 <table class="table">
   <tr>
-      <td>Status: </td><td><%= status %>(estimated: <%= estimatedTime %>)</td>
+      <td>Status: </td><td><%= status %> (estimated: <%= estimatedTime %>)</td>
   </tr>
   <tr>
       <td>Scheduled:</td> <td><%= scheduledDateTime %></td>
