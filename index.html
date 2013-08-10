@@ -1,17 +1,23 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0-rc1/css/bootstrap.min.css">
 </head>
 <body>
-    <h1>When Should I leave?</h1>
-    <div class="row">
-        <input id="flight-num">
+    <div class="container">
+        <h1>When Should I leave?</h1>
+        <div class="row">
+            <div class="col-lg-6">
+                <input id="flight-num" type="text" placeholder="Flight #" class="form-control">
+                <input id="addr" type="text" placeholder="Starting Address" class="form-control">
+            </div>
+            <div class="col-lg-6">
+                <div id="flight-status"></div>
+            </div>
+        </div>
+        <button id="go" class="btn btn-primary">Watch this flight</button>
+        <div id="map" style="height:500px; width=500px;"></div>
     </div>
-    <div class="row">
-        <input id="addr">
-    </div>
-    <button id="go">Go</button>
-    <div id="map" style="height:500px; width=500px;"></div>
 </body>
 <script src="//maps.googleapis.com/maps/api/js?sensor=false"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
@@ -20,6 +26,7 @@
 <script src="vendor/moment.min.js"></script>
 <script src="ready.js"></script>
 <script src="map.js"></script>
+<script src="flight.js"></script>
 <script type="text/javascript" src="http://54.235.132.110/socket.io/socket.io.js"></script>
 <script type="text/javascript">
     $(document).ready(function() { 
