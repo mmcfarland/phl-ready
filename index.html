@@ -2,16 +2,22 @@
 <html>
 <head>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0-rc1/css/bootstrap.min.css">
+    
+    <style type="text/css">
+        .progress, input[type=text] {
+            margin-top: 5px !important;
+        }
+    </style>
 </head>
 <body style="background-color: #ecf0f1;color:#999;">
-
+<div style="position:absolute;top:5px;right:5px;font-size:8pt" class="text-muted"><a href="https://github.com/mmcfarland/phl-ready">code</a> | <a href="https://github.com/CityOfPhiladelphia/phl-airport-data">data</a></div>
     <div class="container">
-        <h1>When Should I leave?</h1>
+        <h1>PHL, when should I leave?</h1>
         <div class="row">
             <div class="col-lg-6">
                 <input id="flight-num" type="text" placeholder="Flight #" class="form-control">
                 <input id="addr" type="text" placeholder="Starting Address" class="form-control">
-                <div class="progress">
+                <div class="progress progress-striped active">
                     <div class="progress-bar" style="width:0%"></div>
                 </div>
             </div>
@@ -22,10 +28,25 @@
         <button id="go" class="btn btn-primary">Watch this flight</button>
         <div id="map" style="height:500px;border:1px solid whitesmoke"></div>
     </div>
+
+    <div class="modal fade" id="choose">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title">Select your flight</h4>
+          </div>
+          <div class="modal-body">
+            <ul>
+          </div>
+        </div>
+    </div>
+    </div>
 </body>
 
 <script src="//maps.googleapis.com/maps/api/js?sensor=false"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0-rc1/js/bootstrap.min.js"></script>
 <script src="vendor/underscore-min.js"></script>
 <script src="vendor/backbone-min.js"></script>
 <script src="vendor/moment.min.js"></script>
@@ -51,9 +72,12 @@
       <td>Travel Time Est:</td><td><%= travelTimeF %></td>
   </tr>
   <tr>
-      <td>Leave In:</td><td><%= leaveInF %> (around <%= leaveAt %>)</td>
+      <td class="text-primary">Leave In:</td><td class="text-primary"><%= leaveInF %> (around <%= leaveAt %>)</td>
   </tr>
 </table>
+</script>
+<script id="template-flight-choice" type="text/template">
+        <li class="choice text-info" data-id="<%=id %>" style="cursor:pointer;font-weight:bold"><%=airline %> <%= flightNumber %> <% print(direction === 'Departure' ? ' to ' : ' from ') %> <%= airport %></li>
 </script>
 </html>
 

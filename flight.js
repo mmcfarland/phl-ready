@@ -6,7 +6,7 @@
         }, 
 
         formatMins: function(mins) {
-            if (mins < 60) return mins + " mins";
+            if (mins < 60) return Math.ceil(mins) + " mins";
             var h = Math.floor(mins/60),
                 m = Math.ceil(mins % 60),
                 fh =  h + ' hr' + (h > 1 ? 's':''),
@@ -23,13 +23,18 @@
                 leaveInF = this.formatMins(leaveIn),
                 leaveAt = moment().add(leaveIn, 'minutes').format('h:mm a'),
                 travelTime = this.get('travelTime') || 0,
-                travelTimeF = this.formatMins(travelTime); 
-
+                travelTimeF = this.formatMins(travelTime),
+                leave = leaveInF; 
+                if (leaveIn === 0) {
+                    leave = 'NOW!';
+                } else if (leaveIn < 0) {
+                   leave = 'YOU SHOULD HAVE LEFT BY NOW!';
+                } 
             this.set({
                 landsAt: landsAt,
                 landsIn: landsIn,
                 leaveIn: leaveIn,
-                leaveInF: leaveInF,
+                leaveInF: leave,
                 leaveAt: leaveAt,
                 travelTimeF: travelTimeF
             });
@@ -37,8 +42,10 @@
             this.trigger('updated');
         }
     });
-    
-    N.FlightV = Backbone.View.extend({
+
+    N.Flights = Backbone.Collection.extend({model: N.Flight});    
+
+    N.FlightStatus = Backbone.View.extend({
         initialize: function() {
             this.$c = $('#flight-status');
             this.model.on('updated', this.render, this);
@@ -47,11 +54,74 @@
         render: function() {
             var t = _.template($('#template-flight').html());
                 ctx = this.model.toJSON();
-            console.log(ctx);
             this.$el.empty().html(t(ctx));
             this.$el.appendTo(this.$c.empty());
             return this;
         }
+    });
+
+    N.FlightChooser = Backbone.View.extend({
+        initialize: function() {
+            this.tmpl = _.template($('#template-flight-choice').html());
+            this.setElement(this.options.$list[0]);
+            this.render();
+        }, 
+        
+        events: {
+            'click li.choice': 'handleClick'
+        },
+
+        render: function() {
+            var self = this,
+                choices = this.collection.map(function(flight) {
+                    var ctx = flight.toJSON();
+                    ctx.id = flight.cid;
+                    return self.tmpl(ctx)
+                });
+            this.$el.empty().append.call(this.options.$list, choices)
+            this.dialog = $('#choose').modal('show'); 
+        },
+        
+        handleClick: function(evt) {
+            var id = $(evt.target).data('id');
+            this.trigger('selected', this.collection.get(id).attributes);
+            this.dialog.modal('hide');
+        }
+    }); 
+
+    N.FlightProgress = Backbone.View.extend({
+        initialize: function() {
+            this.setElement(this.id);
+            this.model.on('updated', this.render, this);
+        }, 
+
+        render: function() {
+            var p = this.calculateProgress(),
+                cls = 'progress-bar-success';
+            if (p >  65 && p < 90) {
+                cls = 'progress-bar-warning';
+            } else if (p >= 90) {
+                cls = 'progress-bar-danger';
+            }
+            
+            this.$el.removeClass('progress-bar-success').removeClass('progress-bar-warning').removeClass('progress-bar-danger')   
+                    .addClass(cls)
+                    .css({width: p + "%" });
+            return this;
+        },
+
+        calculateProgress: function() {
+            // Totally arbitrary, call 2 hours 50%, 4 hrs -infinity, 0mins 100%
+            var min = 4 * 60,
+                t = this.model.get('leaveIn')
+                p = t/min;
+            if (p > 1) {
+                return 0;
+            } else {
+                return Math.abs(Math.floor(p * 100) - 100);
+            }
+        } 
+
     });
 
 }(this));

@@ -17,8 +17,9 @@
         traffic.setMap(map);
         self.directionsDisplay.setMap(map);
 
-        // Update the travel times ever minute
-        setInterval($.proxy(self.calculateRoute,self), 60 * 1000);
+        // Update the travel times every minute
+        // TODO: Make a factor of time-until (less frequent early)
+        setInterval($.proxy(self.calculateRoute,self), 60 *  3 * 1000);
     };
 
     N.Map.prototype.calculateRoute = function() {

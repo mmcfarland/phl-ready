@@ -10,6 +10,7 @@
         socket.on('update', function(data) {
             if (self.flight && data) {
                 self.flight.set(data);
+                console.log('socket update');
                 console.log(data);
             }
         });
@@ -25,14 +26,30 @@
             self.direction = $('#direction').val() || "Arrival";
 
             $.getJSON(self.server + 'number/' + self.fn + '?callback=?', function(status) {
-                if (status.length > 0) {
-                    self.flight = new Flight(status[0]);
-                    self.flightv = new FlightV({ model: self.flight });
-
-                    self.map.calculateRoute();
-
-                } else {
+                if (status.length === 0) {
                     alert("Sorry, couldn't find that flight.");
+                    return;
+                }
+                if (status.length > 1) {
+                    if (self.chooser) self.chooser.undelegateEvents();
+                    self.flights = new Flights(status),
+                    self.chooser = new FlightChooser({
+                        collection: self.flights,
+                        $list: $('.modal-body ul')
+                    }); 
+
+                    self.chooser.on('selected', watchFlight, this);
+                } else {
+                    watchFlight(status[0]);
+                }
+
+                function watchFlight(fs) {
+                    self.flight = new Flight(fs);
+                    self.flightStatus = new FlightStatus({ model: self.flight });
+                    self.flightProgress = new FlightProgress({
+                        model: self.flight, id: '.progress-bar'
+                    });
+                    self.map.calculateRoute();
                 }
             });
         });
@@ -45,5 +62,4 @@
 
     
     };
-
 }(this));
