@@ -98,6 +98,8 @@
     }); 
 
     N.FlightProgress = Backbone.View.extend({
+        _alerted: false,
+
         initialize: function() {
             this.setElement(this.id);
             this.model.on('updated', this.render, this);
@@ -117,8 +119,10 @@
                     .css({width: p + "%" });
     
             // an alert should focus the tab if it's not visible
-            if (p >= 100 ) alert("You should leave now! (gate " + this.model.get('gate') + ")");
-            
+            if (p >= 100 && !this._alerted ) {
+                this._alerted = true;
+                alert("You should leave now! (gate " + this.model.get('gate') + ")");
+            }
             return this;
         },
 
