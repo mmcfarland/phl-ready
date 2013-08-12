@@ -4,7 +4,8 @@
 
         $('#faq').popover({
             title: 'What is this?',
-            content: 'This is a demonstration app using new real-time flight data from the airport.  Enter your flight and address and it will monitor travel times and flight updates to alert you when you need to leave.'
+            content: 'This is a demonstration app using new real-time flight data from the airport.  Enter your flight and address and it will monitor travel times and flight updates to alert you when you need to leave.',
+            placement: 'bottom'
         }); 
         self.server = 'http://54.235.132.110/';
         self.map = new Map();
@@ -14,20 +15,16 @@
         socket.on('update', function(data) {
             if (self.flight && data) {
                 self.flight.set(data);
-                console.log('socket update');
-                console.log(data);
             }
         });
 
         self.map.on('route-time-update', function(route) {
             $('#addr').val(route.start_address);
             self.flight.set('travelTime', route.duration.value / 60);
-            console.log(route);
         });
 
         $('#go').click(function() {
             self.fn = $('#flight-num').val();
-            self.direction = $('#direction').val() || "Arrival";
 
             $.getJSON(self.server + 'number/' + self.fn + '?callback=?', function(status) {
                 if (status.length === 0) {
@@ -54,16 +51,13 @@
                         model: self.flight, id: '.progress-bar'
                     });
                     self.map.calculateRoute();
+
+                    socket.emit('subscribe', {
+                        "flightNumber": self.fn, 
+                        "direction": fs.direction
+                    });
                 }
             });
         });
-
-        socket.emit('subscribe', {
-            "flightNumber": self.fn, 
-            "direction": self.direction
-        });
-
-
-    
     };
 }(this));
