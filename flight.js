@@ -1,6 +1,10 @@
 (function(N) {
    
     N.Flight = Backbone.Model.extend({
+        // Basic assumptions on non-travel time factors
+        _arrivalBuffer: 10,
+        _departureBuffer: 120,
+
         initialize: function() {
             this.on('change', this.computeTime, this);
         }, 
@@ -16,7 +20,11 @@
         },
 
         computeTime: function() {
-            var landsAt = moment(this.get('scheduledDateTime')),
+            if (!this.get('travelTime')) return; 
+            
+            var scheduled = moment(this.get('scheduledDateTime')),
+                est = moment(this.get('estimatedTime'), 'H:mm'),
+                landsAt = scheduled.clone().hours(est.hours()).minutes(est.minutes()),
                 landsIn = landsAt.diff(moment(), 'minutes'),
                 leaveIn = landsAt.diff(moment()
                     .add(this.get('travelTime'), 'minutes'), 'minutes'),
@@ -103,10 +111,14 @@
             } else if (p >= 90) {
                 cls = 'progress-bar-danger';
             }
-            
+           
             this.$el.removeClass('progress-bar-success').removeClass('progress-bar-warning').removeClass('progress-bar-danger')   
                     .addClass(cls)
                     .css({width: p + "%" });
+    
+            // an alert should focus the tab if it's not visible
+            if (p >= 100 ) alert("You should leave now! (gate " + this.model.get('gate') + ")");
+            
             return this;
         },
 
