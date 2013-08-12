@@ -7,13 +7,14 @@
         .progress, input[type=text] {
             margin-top: 5px !important;
         }
-        #faq { display:inline;}
+        #faq { display:inline;cursor:pointer;}
+        .title {display: inline-block}
     </style>
 </head>
 <body style="background-color: #ecf0f1;color:#999;">
 <div style="position:absolute;top:5px;right:5px;font-size:8pt" class="text-muted"><a href="https://github.com/mmcfarland/phl-ready">code</a> | <a href="https://github.com/CityOfPhiladelphia/phl-airport-data">data</a></div>
     <div class="container">
-        <h1>When should I leave?</h1><span id="faq" class="badge" style="margin-left:10px;">?</span> <div class="row">
+        <h1 class="title">When should I leave?</h1><span id="faq" class="badge" style="margin-left:10px;">?</span> <div class="row">
             <div class="col-lg-6">
                 <input id="flight-num" type="text" placeholder="Flight #" class="form-control">
                 <input id="addr" type="text" placeholder="Starting Address" class="form-control">
