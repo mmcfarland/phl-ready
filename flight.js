@@ -132,7 +132,7 @@
                 t = this.model.get('leaveIn')
                 p = t/min;
             if (p > 1) {
-                return 0;
+                return 2; //give it a sliver of a line
             } else {
                 return Math.abs(Math.floor(p * 100) - 100);
             }
