@@ -7,13 +7,13 @@
         .progress, input[type=text] {
             margin-top: 5px !important;
         }
+        #faq { display:inline;}
     </style>
 </head>
 <body style="background-color: #ecf0f1;color:#999;">
 <div style="position:absolute;top:5px;right:5px;font-size:8pt" class="text-muted"><a href="https://github.com/mmcfarland/phl-ready">code</a> | <a href="https://github.com/CityOfPhiladelphia/phl-airport-data">data</a></div>
     <div class="container">
-        <h1>PHL, when should I leave?</h1>
-        <div class="row">
+        <h1>When should I leave?</h1><span id="faq" class="badge" style="margin-left:10px;">?</span> <div class="row">
             <div class="col-lg-6">
                 <input id="flight-num" type="text" placeholder="Flight #" class="form-control">
                 <input id="addr" type="text" placeholder="Starting Address" class="form-control">
@@ -37,7 +37,7 @@
             <h4 class="modal-title">Select your flight</h4>
           </div>
           <div class="modal-body">
-            <ul>
+              <div class="list-group"></div>
           </div>
         </div>
     </div>
@@ -77,7 +77,7 @@
 </table>
 </script>
 <script id="template-flight-choice" type="text/template">
-        <li class="choice text-info" data-id="<%=id %>" style="cursor:pointer;font-weight:bold"><%=airline %> <%= flightNumber %> <% print(direction === 'Departure' ? ' to ' : ' from ') %> <%= airport %></li>
+        <a href="#" class="choice list-group-item text-info" data-id="<%=id %>" style="font-weight:bold"><%=airline %> <%= flightNumber %> <% print(direction === 'Departure' ? ' to ' : ' from ') %> <%= airport %></a>
 </script>
 </html>
 

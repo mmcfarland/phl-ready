@@ -68,7 +68,7 @@
         }, 
         
         events: {
-            'click li.choice': 'handleClick'
+            'click a.choice': 'handleClick'
         },
 
         render: function() {

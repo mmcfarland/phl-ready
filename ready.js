@@ -2,6 +2,10 @@
     N.Ready = function(opts) {
         var self = this;
 
+        $('#faq').popover({
+            title: 'What is this?',
+            content: 'This is a demonstration app using new real-time flight data from the airport.  Enter your flight and address and it will monitor travel times and flight updates to alert you when you need to leave.'
+        }); 
         self.server = 'http://54.235.132.110/';
         self.map = new Map();
 
@@ -35,7 +39,7 @@
                     self.flights = new Flights(status),
                     self.chooser = new FlightChooser({
                         collection: self.flights,
-                        $list: $('.modal-body ul')
+                        $list: $('.modal-body div')
                     }); 
 
                     self.chooser.on('selected', watchFlight, this);
