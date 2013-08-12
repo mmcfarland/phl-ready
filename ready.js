@@ -25,10 +25,14 @@
 
         $('#go').click(function() {
             self.fn = $('#flight-num').val();
+            if ($('#addr').val() === "") {
+                alert("Please enter both a flight # and your starting location");
+                return;
+            }
 
             $.getJSON(self.server + 'number/' + self.fn + '?callback=?', function(status) {
                 if (status.length === 0) {
-                    alert("Sorry, couldn't find that flight.");
+                    alert("Sorry, couldn't find that flight. Make sure you use just the number portion of the flight.");
                     return;
                 }
                 if (status.length > 1) {
