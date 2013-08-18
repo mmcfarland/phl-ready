@@ -23,8 +23,7 @@
             if (!this.get('travelTime')) return; 
             
             var scheduled = moment(this.get('scheduledDateTime')),
-                est = moment(this.get('estimatedTime'), 'H:mm'),
-                landsAt = scheduled.clone().hours(est.hours()).minutes(est.minutes()),
+                landsAt = moment(this.get('estimatedDateTime')),
                 landsIn = landsAt.diff(moment(), 'minutes'),
                 leaveIn = landsAt.diff(moment()
                     .add(this.get('travelTime'), 'minutes'), 'minutes'),
@@ -44,7 +43,9 @@
                 leaveIn: leaveIn,
                 leaveInF: leave,
                 leaveAt: leaveAt,
-                travelTimeF: travelTimeF
+                travelTimeF: travelTimeF,
+                scheduledF: scheduled.format("MM/DD/YYYY hh:mm A"),
+                estimatedF: landsAt.format("MM/DD/YYYY hh:mm A")
             });
 
             this.trigger('updated');

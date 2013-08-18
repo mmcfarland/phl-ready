@@ -65,10 +65,10 @@
         <p class="text-info" style="font-weight:bold"><%=airline %> <%= flightNumber %> <% print(direction === 'Departure' ? ' to ' : ' from ') %> <%= airport %></p>
 <table class="table">
   <tr>
-      <td>Status: </td><td><%= status %> (estimated: <%= estimatedTime %>)</td>
+      <td>Status: </td><td><%= status %> (estimated: <%= estimatedF %>)</td>
   </tr>
   <tr>
-      <td>Scheduled:</td> <td><%= scheduledDateTime %> at gate <%=gate%></td>
+      <td>Scheduled:</td> <td><%= scheduledF %> at gate <%=gate%></td>
   </tr>
   <tr>
       <td>Travel Time Est:</td><td><%= travelTimeF %></td>
