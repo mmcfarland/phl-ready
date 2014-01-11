@@ -7,7 +7,7 @@
             content: 'This is a demonstration app using new real-time flight data from the airport.  Enter your flight and address and it will monitor travel times to the airport and flight updates to alert you when you need to leave.',
             placement: 'bottom'
         }); 
-        self.server = 'http://54.235.132.110/';
+        self.server = 'http://flightinfo.phlapi.com/';
         self.map = new Map();
 
         var socket = io.connect(self.server);
