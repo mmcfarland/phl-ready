@@ -58,6 +58,8 @@
         initialize: function() {
             this.$c = $('#flight-status');
             this.model.on('updated', this.render, this);
+            
+            navigator.vibrate = navigator.vibrate || navigator.webkitVibrate || navigator.mozVibrate || navigator.msVibrate;
         },
 
         render: function() {
@@ -121,8 +123,7 @@
     
             // an alert should focus the tab if it's not visible
             if (p >= 100 && !this._alerted ) {
-                this._alerted = true;
-                alert("You should leave now! (gate " + this.model.get('gate') + ")");
+                this.notify();
             }
             return this;
         },
@@ -137,7 +138,16 @@
             } else {
                 return Math.abs(Math.floor(p * 100) - 100);
             }
-        } 
+        },
+
+        notify: function() {
+            this._alerted = true;
+            alert("You should leave now! (gate " + this.model.get('gate') + ")");
+            if (navigator.vibrate) {
+                // Pulse the vibrator
+                navigator.vibrate([1000, 1000, 500, 500, 500]);
+            }
+        }
 
     });
 
